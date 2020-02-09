@@ -8,7 +8,7 @@ import android.content.Context
  */
 object Initializer {
 
-    fun start(context: Context) {
+  fun start(context: Context) {
 
-    }
+  }
 }
