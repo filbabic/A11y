@@ -1,0 +1,40 @@
+apply plugin: 'com.jfrog.bintray'
+
+group 'com.filbabic.a11y'
+version '0.0.1'
+
+project.ext {
+    mavGitUrl = 'https://github.com/filbabic/A11y.git'
+    mavProjectName = 'A11y'
+    mavLibraryLicenses = ["Apache-2.0":'http://www.apache.org/licenses/LICENSE-2.0.txt']
+    mavLibraryDescription = "An Awesome Android library"
+    mavPublishToMavenLocal = true
+    mavSiteUrl = 'https://github.com/filbabic/A11y'
+}
+
+def properties = new Properties()
+properties.load(new FileInputStream("local.properties"))
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['Production']
+    configurations = ['archives']
+    override = true
+    pkg {
+        repo = 'maven'
+        name = 'A11y'
+        description = "Accessibility ally, to help you help others!"
+        publicDownloadNumbers = true
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/filbabic/A11y'
+        version {
+            name = this.version
+            desc = "Version ${this.version}"
+            released = new Date()
+            vcsTag = this.version
+        }
+    }
+}
+
+apply from: 'https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/master/gradle-mavenizer.gradle'
