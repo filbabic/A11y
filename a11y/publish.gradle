@@ -1,40 +1,91 @@
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
-group 'com.filbabic.a11y'
-version '0.0.1'
+version = libraryVersion
+group = publishedGroupId    // Maven Group ID for the artifact
 
-project.ext {
-  mavGitUrl = 'https://github.com/filbabic/A11y.git'
-  mavProjectName = 'A11y'
-  mavLibraryLicenses = ["Apache-2.0": 'http://www.apache.org/licenses/LICENSE-2.0.txt']
-  mavLibraryDescription = "An Awesome Android library"
-  mavPublishToMavenLocal = true
-  mavSiteUrl = 'https://github.com/filbabic/A11y'
-}
+install {
+  repositories.mavenInstaller {
+    // This generates POM.xml with proper parameters
+    pom {
+      project {
+        packaging 'aar'
+        groupId publishedGroupId
+        artifactId artifact
 
-def properties = new Properties()
-properties.load(new FileInputStream("local.properties"))
+        // Add your description here
+        name libraryName
+        description libraryDescription
+        url siteUrl
 
-bintray {
-  user = properties.getProperty("bintray.user")
-  key = properties.getProperty("bintray.apikey")
-  publications = ['Production']
-  configurations = ['archives']
-  override = true
-  pkg {
-    repo = 'maven'
-    name = 'A11y'
-    description = "Accessibility ally, to help you help others!"
-    publicDownloadNumbers = true
-    licenses = ['Apache-2.0']
-    vcsUrl = 'https://github.com/filbabic/A11y'
-    version {
-      name = this.version
-      desc = "Version ${this.version}"
-      released = new Date()
-      vcsTag = this.version
+        // Set your license
+        licenses {
+          license {
+            name licenseName
+            url licenseUrl
+          }
+        }
+        developers {
+          developer {
+            id developerId
+            name developerName
+            email developerEmail
+          }
+        }
+        scm {
+          connection gitUrl
+          developerConnection gitUrl
+          url siteUrl
+
+        }
+      }
     }
   }
 }
 
-apply from: 'https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/master/gradle-mavenizer.gradle'
+task sourcesJar(type: Jar) {
+  from android.sourceSets.main.java.srcDirs
+  classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+  source = android.sourceSets.main.java.srcDirs
+  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
+}
+artifacts {
+  archives javadocJar
+  archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+  user = properties.getProperty("bintray.user")
+  key = properties.getProperty("bintray.apikey")
+
+  configurations = ['archives']
+  pkg {
+    repo = bintrayRepo
+    name = bintrayName
+    desc = libraryDescription
+    websiteUrl = siteUrl
+    vcsUrl = gitUrl
+    licenses = allLicenses
+    publish = true
+    publicDownloadNumbers = true
+    version {
+      desc = libraryDescription
+      // Uncomment 4 lines below to enable gpg auto signing
+      //gpg {
+      //    sign = true //Determines whether to GPG sign the files. The default is false
+      //    passphrase = properties.getProperty("bintray.gpg.password")
+      //}
+    }
+  }
+}

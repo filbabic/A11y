@@ -11,9 +11,14 @@ buildscript {
   dependencies {
     classpath 'com.android.tools.build:gradle:3.5.3'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
+    classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files
+  }
+
+  subprojects {
+    tasks.withType(Javadoc).all { enabled = false }
   }
 }
 
@@ -33,4 +38,26 @@ ext {
   compileSdkVersion = 29
   targetSdkVersion = 29
   minSdkVersion = 21
+
+  bintrayRepo = 'A11y'
+  bintrayName = 'com.filbabic.a11y'
+
+  publishedGroupId = 'com.filbabic.a11y'
+  libraryName = 'A11y'
+  artifact = 'a11y'
+
+  libraryDescription = 'A11y, a library to help those who need help!'
+
+  siteUrl = 'https://github.com/filbabic/A11y'
+  gitUrl = 'https://github.com/filbabic/A11y.git'
+
+  libraryVersion = '0.0.1'
+
+  developerId = 'filbabic'
+  developerName = 'Filip Babic'
+  developerEmail = 'fbabic96@gmail.com'
+
+  licenseName = 'The Apache Software License, Version 2.0'
+  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+  allLicenses = ["Apache-2.0"]
 }
