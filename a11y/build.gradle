@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlinx-serialization'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
@@ -40,6 +41,7 @@ dependencies {
 
   // specific collection-type views, which are used for ImageView content description checks
   implementation 'androidx.gridlayout:gridlayout:1.0.0'
+  implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
 }
 
 apply from: 'publish.gradle'

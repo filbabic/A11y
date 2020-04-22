@@ -1,1 +1,5 @@
-<manifest package="com.filip.babic.a11y" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.filip.babic.a11y">
+
+    <application android:process="A11yScanner" />
+</manifest>
