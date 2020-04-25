@@ -10,7 +10,7 @@ import com.filip.babic.a11y.utils.shouldNotHaveDescription
 /**
  * Scans [ImageView] types, and produces its [ViewReportItem]s.
  */
-class ImageViewScanner : ViewScanner() {
+internal class ImageViewScanner : ViewScanner() {
 
   override fun <T : View> getViewReportItems(view: T): List<ViewReportItem> {
     val imageView = view as ImageView

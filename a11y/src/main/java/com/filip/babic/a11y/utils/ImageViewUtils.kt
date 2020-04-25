@@ -27,11 +27,11 @@ import androidx.viewpager.widget.ViewPager
  *
  * @return If the description is useful and valid in any given situation.
  * */
-fun isContentDescriptionValid(imageView: ImageView): Boolean {
+internal fun isContentDescriptionValid(imageView: ImageView): Boolean {
   return !hasBadDescription(imageView)
 }
 
-fun shouldNotHaveDescription(imageView: ImageView): Boolean {
+internal fun shouldNotHaveDescription(imageView: ImageView): Boolean {
   val rootView = imageView.rootView
   var currentParentLayerView = getParentViewFromView(imageView) ?: return false
 

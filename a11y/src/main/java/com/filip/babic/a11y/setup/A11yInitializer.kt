@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -61,7 +60,9 @@ object A11yInitializer {
       override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
       override fun onActivityStopped(activity: Activity) = Unit
       override fun onActivityResumed(activity: Activity) = Unit
-      override fun onActivityStarted(activity: Activity) {
+      override fun onActivityStarted(activity: Activity) = Unit
+
+      override fun onActivityDestroyed(activity: Activity) {
         val activityView = activity.window.decorView.rootView as? ViewGroup ?: return
 
         val fragmentManager = (activity as? FragmentActivity)?.supportFragmentManager ?: return
@@ -70,7 +71,6 @@ object A11yInitializer {
         logger.logReport(scanner.scanView(activityView))
       }
 
-      override fun onActivityDestroyed(activity: Activity) = Unit
       override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
     }
   }
@@ -91,8 +91,8 @@ object A11yInitializer {
   private fun buildFragmentCallbacks(): FragmentManager.FragmentLifecycleCallbacks {
     return object : FragmentManager.FragmentLifecycleCallbacks() {
 
-      override fun onFragmentStarted(fm: FragmentManager, fragment: Fragment) {
-        super.onFragmentStarted(fm, fragment)
+      override fun onFragmentDestroyed(fm: FragmentManager, fragment: Fragment) {
+        super.onFragmentDestroyed(fm, fragment)
         val view = fragment.view
 
         if (view is ViewGroup) {

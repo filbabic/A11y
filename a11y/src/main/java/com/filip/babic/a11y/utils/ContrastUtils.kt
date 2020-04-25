@@ -19,17 +19,24 @@ import androidx.core.graphics.ColorUtils
  *
  * @return If the contrast is strong enough, depending on if the text is large or small.
  * */
-fun isTextContrastCorrect(
-    textView: TextView,
-    @ColorInt backgroundColor: Int
+
+private const val NORMAL_TEXT_TARGET_SIZE = 14f
+private const val LARGE_TEXT_TARGET_SIZE = 18f
+
+private const val NORMAL_TEXT_CONTRAST = 3.0
+private const val LARGE_TEXT_CONTRAST = 4.5
+
+internal fun isTextContrastCorrect(
+  textView: TextView,
+  @ColorInt backgroundColor: Int
 ): Boolean {
   val textContrast = getContrast(textView.currentTextColor, backgroundColor)
   val textStyle = textView.typeface.style
 
-  return if (isBoldText(textStyle) && isLargeText(textView, 14f)) {
-    textContrast > 3.0
+  return if (isBoldText(textStyle) && isLargeEnoughText(textView, NORMAL_TEXT_TARGET_SIZE)) {
+    textContrast > NORMAL_TEXT_CONTRAST
   } else {
-    isLargeText(textView, 18f) && textContrast > 4.5
+    isLargeEnoughText(textView, LARGE_TEXT_TARGET_SIZE) && textContrast > LARGE_TEXT_CONTRAST
   }
 }
 
@@ -37,13 +44,13 @@ private fun isBoldText(textStyle: Int): Boolean {
   return textStyle == Typeface.BOLD || textStyle == Typeface.BOLD_ITALIC
 }
 
-private fun isLargeText(textView: TextView, targetSize: Float): Boolean {
+private fun isLargeEnoughText(textView: TextView, targetSize: Float): Boolean {
   return (textView.textSize / textView.paint.density) > targetSize
 }
 
 private fun getContrast(
-    @ColorInt firstColor: Int,
-    @ColorInt secondColor: Int
+  @ColorInt firstColor: Int,
+  @ColorInt secondColor: Int
 ): Double {
   val firstColorLuminance = ColorUtils.calculateLuminance(firstColor)
   val secondColorLuminance = ColorUtils.calculateLuminance(secondColor)

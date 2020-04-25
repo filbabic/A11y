@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
  */
 
 @Serializable
-data class Report(
+internal data class Report(
   val viewReports: List<ViewReport> = emptyList(),
   val childLayerReports: List<Report>? = null
 )

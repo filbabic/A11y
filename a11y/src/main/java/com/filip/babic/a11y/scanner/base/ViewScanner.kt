@@ -6,7 +6,7 @@ import com.filip.babic.a11y.report.model.ViewReportItem
 /**
  * Basic abstract View scanner.
  */
-abstract class ViewScanner {
+internal abstract class ViewScanner {
 
   abstract fun <T : View> getViewReportItems(view: T): List<ViewReportItem>
 

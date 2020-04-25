@@ -1,3 +1,9 @@
 <resources>
   <string name="app_name">A11y</string>
+  <string name="text_contrast">Text contrast</string>
+  <string name="image_content_description">Image content description</string>
+  <string name="touch_area">Touch area</string>
+  <string name="list_item_content_description">List item content description</string>
+  <string name="colorblind_support_two_colors">Colorblind support - two colors</string>
+  <string name="colorblind_support_three_colors">Colorblind support - three colors</string>
 </resources>

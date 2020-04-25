@@ -1,34 +1,33 @@
 package com.filip.babic.a11y.utils
 
-import android.content.Context
-import android.util.DisplayMetrics
+import android.util.TypedValue
 import android.view.View
-import kotlin.math.roundToInt
-
 
 /**
- * Provides functions for general View checkups, like padding.
+ * Provides functions for general View checkups, like touch area. Touch area of views needs to be
+ * at least [MINIMAL_TOUCH_AREA_SIZE] dp in size. This means each View needs <i>at least</i> that
+ * big width and height, after density conversions.
+ *
+ * It does not matter if the view has 250dp height, if the width is still only 20 dp, as the View
+ * will still be hard to perform touch/click actions on.
  */
-private const val MINIMAL_EXTRA_PADDING = 16
+private const val MINIMAL_TOUCH_AREA_SIZE = 48f
 
-fun hasBigEnoughTouchArea(view: View): Boolean {
+internal fun hasBigEnoughTouchArea(view: View): Boolean {
   val hasListeners = view.hasOnClickListeners()
 
   return if (!hasListeners) {
     true
   } else {
-    val context = view.context
+    val viewHeight = view.measuredHeight
+    val viewWidth = view.measuredWidth
 
-    val rightDp = convertPixelsToDp(view.paddingRight.toFloat(), context)
-    val leftDp = convertPixelsToDp(view.paddingRight.toFloat(), context)
-    val topDp = convertPixelsToDp(view.paddingRight.toFloat(), context)
-    val botDp = convertPixelsToDp(view.paddingRight.toFloat(), context)
+    val minimalSizePixels = TypedValue.applyDimension(
+      TypedValue.COMPLEX_UNIT_DIP,
+      MINIMAL_TOUCH_AREA_SIZE,
+      view.resources.displayMetrics
+    ).toInt()
 
-    rightDp >= MINIMAL_EXTRA_PADDING && leftDp >= MINIMAL_EXTRA_PADDING
-        && topDp >= MINIMAL_EXTRA_PADDING && botDp >= MINIMAL_EXTRA_PADDING
+    return viewHeight >= minimalSizePixels && viewWidth >= minimalSizePixels
   }
-}
-
-fun convertPixelsToDp(pixels: Float, context: Context): Int {
-  return (pixels / (context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
 }

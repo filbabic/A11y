@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
  */
 
 @Serializable
-data class ViewReportItem(
+internal data class ViewReportItem(
   val issueType: String,
   val issue: String,
   val fixSuggestion: String

@@ -6,14 +6,75 @@
   android:layout_height="match_parent"
   tools:context=".MainActivity">
 
-  <ImageView
-    android:id="@+id/clickableView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Hello World!"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
+  <Button
+    android:id="@+id/textContrast"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_margin="16dp"
+    android:text="@string/text_contrast"
+    app:layout_constraintBottom_toTopOf="@+id/imageViewContentDescription"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
 
+  <Button
+    android:id="@+id/imageViewContentDescription"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_margin="16dp"
+    android:text="@string/image_content_description"
+    app:layout_constraintBottom_toTopOf="@+id/touchArea"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textContrast" />
+
+  <Button
+    android:id="@+id/touchArea"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_margin="16dp"
+    android:text="@string/touch_area"
+    app:layout_constraintBottom_toTopOf="@+id/listItemContentDescription"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/imageViewContentDescription" />
+
+  <Button
+    android:id="@+id/listItemContentDescription"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_margin="16dp"
+    android:text="@string/list_item_content_description"
+    app:layout_constraintBottom_toTopOf="@+id/colorblindSupportTwoColors"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/touchArea" />
+
+  <Button
+    android:id="@+id/colorblindSupportTwoColors"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_margin="16dp"
+    android:text="@string/colorblind_support_two_colors"
+    app:layout_constraintBottom_toTopOf="@+id/colorblindSupportThreeColors"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/listItemContentDescription" />
+
+  <Button
+    android:id="@+id/colorblindSupportThreeColors"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_margin="16dp"
+    android:text="@string/colorblind_support_three_colors"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/colorblindSupportTwoColors" />
 </androidx.constraintlayout.widget.ConstraintLayout>

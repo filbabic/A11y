@@ -11,7 +11,7 @@ import com.filip.babic.a11y.scanner.base.ViewScanner
 /**
  * Operates the scanning process, returning a list of issues found within the View hierarchy.
  */
-class A11yScanner(private val scanners: List<ViewScanner>) {
+internal class A11yScanner(private val scanners: List<ViewScanner>) {
 
   /**
    * We presume this is the top-level (parent) View, as such, we don't need to look up its parent.
@@ -23,7 +23,7 @@ class A11yScanner(private val scanners: List<ViewScanner>) {
    *
    * then we generate a [Report], recursively
    * */
-  fun scanView(viewGroup: ViewGroup): Report {
+  internal fun scanView(viewGroup: ViewGroup): Report {
     val children = viewGroup.children
 
     val nestedLayers = children.mapNotNull { it as? ViewGroup }
