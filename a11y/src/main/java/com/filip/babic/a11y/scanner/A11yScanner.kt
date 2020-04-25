@@ -39,34 +39,27 @@ class A11yScanner(private val scanners: List<ViewScanner>) {
     }
   }
 
-  // TODO figure out what this is
-  private fun getViewGroupReport(viewGroup: ViewGroup): ViewReportItem {
-    val children = viewGroup.children
-
-    throw IllegalStateException("Not sure what this is")
-  }
-
   private fun getChildViewReportItems(views: List<View>): List<ViewReport> {
     return views.map { currentView ->
-      val (viewId, viewType, viewHierarchy) = getViewBasics(currentView)
+      val (viewId, viewType) = getViewBasics(currentView)
 
-      ViewReport(viewId, viewType, viewHierarchy, getViewReportItems(currentView))
+      ViewReport(viewId, viewType, getViewReportItems(currentView))
     }
   }
 
   private fun getViewReportItems(currentView: View): List<ViewReportItem> {
-    val concreteScanner = scanners.firstOrNull { it.canScan(currentView) }
+    val scannersForView = scanners.filter { it.canScan(currentView) }
 
-    return concreteScanner?.getViewReportItems(currentView) ?: emptyList()
+    return scannersForView.flatMap { it.getViewReportItems(currentView) }.distinct()
   }
 
-  private fun getViewBasics(currentView: View): Triple<String, String, String> {
+  private fun getViewBasics(currentView: View): Pair<String, String> {
     val viewIdInt = currentView.id
     val viewIdentifier =
       if (viewIdInt == View.NO_ID) "no-id" else currentView.resources.getResourceName(viewIdInt)
 
     val viewType = currentView.javaClass.name
 
-    return Triple(viewIdentifier, viewType, "") // TODO last type
+    return Pair(viewIdentifier, viewType)
   }
 }

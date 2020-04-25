@@ -10,6 +10,5 @@ import kotlinx.serialization.Serializable
 data class ViewReport(
   val viewId: String,
   val viewType: String,
-  val viewHierarchy: String,
   val viewReportItems: List<ViewReportItem>
 )

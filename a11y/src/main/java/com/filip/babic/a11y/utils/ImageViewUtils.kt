@@ -27,19 +27,11 @@ import androidx.viewpager.widget.ViewPager
  *
  * @return If the description is useful and valid in any given situation.
  * */
-fun isContentDescriptionInvalid(imageView: ImageView): Boolean {
-  return hasBadDescription(imageView) || shouldNotHaveDescription(imageView)
+fun isContentDescriptionValid(imageView: ImageView): Boolean {
+  return !hasBadDescription(imageView)
 }
 
-private fun lacksContentDescription(imageView: ImageView) = imageView.contentDescription.isNullOrBlank()
-
-private fun hasBadDescription(imageView: ImageView): Boolean {
-  val description = imageView.contentDescription
-
-  return lacksContentDescription(imageView) || "image" in description || "photo" in description
-}
-
-private fun shouldNotHaveDescription(imageView: ImageView): Boolean {
+fun shouldNotHaveDescription(imageView: ImageView): Boolean {
   val rootView = imageView.rootView
   var currentParentLayerView = getParentViewFromView(imageView) ?: return false
 
@@ -50,6 +42,15 @@ private fun shouldNotHaveDescription(imageView: ImageView): Boolean {
   }
 
   return isParentACollectionView(rootView)
+}
+
+private fun lacksContentDescription(imageView: ImageView) =
+  imageView.contentDescription.isNullOrBlank()
+
+private fun hasBadDescription(imageView: ImageView): Boolean {
+  val description = imageView.contentDescription
+
+  return lacksContentDescription(imageView) || "image" in description || "photo" in description
 }
 
 private fun getParentViewFromView(view: View) = view.parent as? ViewGroup

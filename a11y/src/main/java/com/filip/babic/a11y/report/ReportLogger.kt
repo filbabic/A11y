@@ -1,5 +1,6 @@
 package com.filip.babic.a11y.report
 
+import android.util.Log
 import com.filip.babic.a11y.report.model.Report
 
 /**
@@ -8,6 +9,6 @@ import com.filip.babic.a11y.report.model.Report
 class ReportLogger {
 
   fun logReport(report: Report) {
-
+    Log.d("report", report.toString())
   }
 }
