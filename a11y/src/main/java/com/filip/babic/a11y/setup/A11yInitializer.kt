@@ -13,6 +13,7 @@ import com.filip.babic.a11y.scanner.A11yScanner
 import com.filip.babic.a11y.scanner.base.ViewScanner
 import com.filip.babic.a11y.scanner.general.GeneralViewScanner
 import com.filip.babic.a11y.scanner.image.ImageViewScanner
+import com.filip.babic.a11y.scanner.text.EditTextScanner
 import com.filip.babic.a11y.scanner.text.TextViewScanner
 
 /**
@@ -31,8 +32,9 @@ object A11yInitializer {
     val generalViewScanner = GeneralViewScanner()
     val imageViewScanner = ImageViewScanner()
     val textViewScanner = TextViewScanner()
+    val editTextScanner = EditTextScanner()
 
-    return listOf(generalViewScanner, imageViewScanner, textViewScanner)
+    return listOf(generalViewScanner, imageViewScanner, textViewScanner, editTextScanner)
   }
 
   fun start(context: Context) {

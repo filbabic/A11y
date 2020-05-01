@@ -8,6 +8,7 @@ import com.filip.babic.a11y.report.model.Report
  */
 internal class ReportLogger {
 
+  // TODO implement a nice way to format the text.
   fun logReport(report: Report) {
     Log.d("report", report.toString())
   }
