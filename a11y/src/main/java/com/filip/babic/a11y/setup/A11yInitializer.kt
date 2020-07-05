@@ -15,6 +15,7 @@ import com.filip.babic.a11y.scanner.general.GeneralViewScanner
 import com.filip.babic.a11y.scanner.image.ImageViewScanner
 import com.filip.babic.a11y.scanner.text.EditTextScanner
 import com.filip.babic.a11y.scanner.text.TextViewScanner
+import java.io.File
 
 /**
  * Initializes the A11y library, to start screening your activities & fragments for accessibility
@@ -22,8 +23,9 @@ import com.filip.babic.a11y.scanner.text.TextViewScanner
  */
 object A11yInitializer {
 
+  private lateinit var rootFileDirectory: File
   private val scanner by lazy { A11yScanner(buildScannerList()) }
-  private val logger by lazy { ReportLogger() }
+  private val logger by lazy { ReportLogger(rootFileDirectory) }
 
   private var activityLifecycleCallbacks: Application.ActivityLifecycleCallbacks? = null
   private var fragmentLifecycleCallbacks: FragmentManager.FragmentLifecycleCallbacks? = null
@@ -40,6 +42,7 @@ object A11yInitializer {
   fun start(context: Context) {
     val applicationContext = context.applicationContext as? Application ?: return
 
+    rootFileDirectory = context.filesDir
     applicationContext.registerActivityLifecycleCallbacks(getActivityCallbacks())
   }
 
@@ -70,7 +73,7 @@ object A11yInitializer {
         val fragmentManager = (activity as? FragmentActivity)?.supportFragmentManager ?: return
         fragmentManager.registerFragmentLifecycleCallbacks(getFragmentCallbacks(), true)
 
-        logger.logReport(scanner.scanView(activityView))
+        logger.logReport(scanner.flattenReport(scanner.scanView(activityView), emptyList()))
       }
 
       override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
@@ -98,7 +101,7 @@ object A11yInitializer {
         val view = fragment.view
 
         if (view is ViewGroup) {
-          logger.logReport(scanner.scanView(view))
+          logger.logReport(scanner.flattenReport(scanner.scanView(view), emptyList()))
         }
       }
     }

@@ -9,7 +9,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.6.3'
+    classpath 'com.android.tools.build:gradle:4.0.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
     classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
@@ -37,6 +37,7 @@ ext {
   compileSdkVersion = 29
   targetSdkVersion = 29
   minSdkVersion = 21
+  buildToolsVersion = "29.0.3"
 
   bintrayRepo = 'A11y'
   bintrayName = 'com.filbabic.a11y'
@@ -50,7 +51,9 @@ ext {
   siteUrl = 'https://github.com/filbabic/A11y'
   gitUrl = 'https://github.com/filbabic/A11y.git'
 
-  libraryVersion = '0.0.1'
+  libraryVersion = '0.5.0'
+  libraryVersionName = "0.5.0"
+  libraryVersionCode = 2
 
   developerId = 'filbabic'
   developerName = 'Filip Babic'
