@@ -44,8 +44,8 @@
 
   <Button
     android:id="@+id/listItemContentDescription"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
+    android:layout_width="32dp"
+    android:layout_height="32dp"
     android:layout_margin="16dp"
     android:text="@string/list_item_content_description"
     app:layout_constraintBottom_toTopOf="@+id/colorblindSupportTwoColors"

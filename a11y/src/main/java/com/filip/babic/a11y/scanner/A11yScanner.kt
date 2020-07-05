@@ -29,14 +29,30 @@ internal class A11yScanner(private val scanners: List<ViewScanner>) {
     val nestedLayers = children.mapNotNull { it as? ViewGroup }
     val simpleViews = children.filter { it !is ViewGroup }
 
+    val (viewId, viewType) = getViewBasics(viewGroup)
+
     return if (children.none { it is ViewGroup }) {
-      Report(viewReports = getChildViewReportItems(children.toList()))
+      Report(
+        parentId = viewId,
+        parentType = viewType,
+        viewReports = getChildViewReportItems(children.toList())
+      )
     } else {
       Report(
+        parentId = viewId,
+        parentType = viewType,
         viewReports = getChildViewReportItems(simpleViews.toList()),
-        childLayerReports = nestedLayers.map { scanView(it) }.toList()
+        childLayerReports = nestedLayers
+          .map { scanView(it) }
+          .toList()
+          .filter(::filterEmptyReports)
       )
     }
+  }
+
+  private fun filterEmptyReports(report: Report): Boolean {
+    return (report.childLayerReports != null && report.childLayerReports.isNotEmpty())
+        || report.viewReports.isNotEmpty()
   }
 
   private fun getChildViewReportItems(views: List<View>): List<ViewReport> {
@@ -44,7 +60,7 @@ internal class A11yScanner(private val scanners: List<ViewScanner>) {
       val (viewId, viewType) = getViewBasics(currentView)
 
       ViewReport(viewId, viewType, getViewReportItems(currentView))
-    }
+    }.filter { it.viewReportItems.isNotEmpty() }
   }
 
   private fun getViewReportItems(currentView: View): List<ViewReportItem> {
