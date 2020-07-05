@@ -70,7 +70,8 @@ object A11yInitializer {
         val fragmentManager = (activity as? FragmentActivity)?.supportFragmentManager ?: return
         fragmentManager.registerFragmentLifecycleCallbacks(getFragmentCallbacks(), true)
 
-        logger.logReport(scanner.scanView(activityView))
+        val treeReport = scanner.scanView(activityView)
+        logger.logReport(treeReport, scanner.flattenReport(treeReport, emptyList()))
       }
 
       override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
@@ -98,7 +99,8 @@ object A11yInitializer {
         val view = fragment.view
 
         if (view is ViewGroup) {
-          logger.logReport(scanner.scanView(view))
+          val treeReport = scanner.scanView(view)
+          logger.logReport(treeReport, scanner.flattenReport(treeReport, emptyList()))
         }
       }
     }

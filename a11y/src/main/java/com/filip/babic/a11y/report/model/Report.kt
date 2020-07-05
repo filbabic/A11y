@@ -11,6 +11,9 @@ import kotlinx.serialization.Serializable
  *
  * @property childLayerReports - The reports for each child ViewGroup. E.g. the [FrameLayout], in the
  * example above.
+ *
+ * @property nextLevelReport - The report for the next level of hierarchy. This is used to log data
+ * more easily, as we can have a linear structure of layers, instead of a tree-structure.
  */
 
 @Serializable
@@ -18,7 +21,8 @@ internal data class Report(
   val parentId: String,
   val parentType: String,
   val viewReports: List<ViewReport> = emptyList(),
-  val childLayerReports: List<Report>? = null
+  val childLayerReports: List<Report>? = null,
+  val nextLevelReport: Report? = null
 ) {
 
   /**
@@ -28,4 +32,9 @@ internal data class Report(
   fun isNotEmpty(): Boolean =
     (childLayerReports != null && childLayerReports.isNotEmpty())
         || viewReports.isNotEmpty()
+
+  /**
+   * An easy way to check if there is a next level for this View hierarchy.
+   * */
+  fun hasNextLevel(): Boolean = nextLevelReport != null
 }

@@ -10,9 +10,13 @@ import java.lang.StringBuilder
  */
 internal class ReportLogger {
 
+  companion object {
+    private const val ID_CONTENT = "android:id/content"
+  }
+
   // TODO implement a nice way to format the text.
-  fun logReport(report: Report) {
-    val rootReport = fetchRootLayoutReport(report)
+  fun logReport(report: Report, linearReport: Report) {
+    val rootReport = fetchRootLayoutReport(linearReport)
     val stringBuilder = StringBuilder()
 
     var currentReport = rootReport
@@ -36,23 +40,14 @@ internal class ReportLogger {
   private fun fetchRootLayoutReport(report: Report): Report {
     var currentReport = report
 
-    while (currentReport.isNotEmpty()) {
-      if (currentReport.parentId != "android:id/content") {
-        currentReport = currentReport.childLayerReports?.first()
+    while (currentReport.hasNextLevel()) {
+      if (currentReport.parentId != ID_CONTENT) {
+        currentReport = currentReport.nextLevelReport
           ?: throw IllegalStateException("Couldn't find Root report")
       } else {
-        return currentReport.childLayerReports?.first()
+        return currentReport.nextLevelReport
           ?: throw IllegalStateException("Couldn't find Root report")
       }
-    }
-
-    return report
-  }
-
-  // TODO see if we can flatten it in the Report-generating area
-  private fun flattenLayerReports(report: Report): Report {
-    if (report.childLayerReports != null && report.childLayerReports.isNotEmpty()) {
-
     }
 
     return report
