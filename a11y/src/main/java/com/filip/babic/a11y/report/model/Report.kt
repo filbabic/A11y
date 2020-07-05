@@ -19,4 +19,13 @@ internal data class Report(
   val parentType: String,
   val viewReports: List<ViewReport> = emptyList(),
   val childLayerReports: List<Report>? = null
-)
+) {
+
+  /**
+   * As long as there is either a nested report for child layers, or there is a report for one of
+   * the views in the current layout, we find this [Report] as _not empty_.
+   * */
+  fun isNotEmpty(): Boolean =
+    (childLayerReports != null && childLayerReports.isNotEmpty())
+        || viewReports.isNotEmpty()
+}

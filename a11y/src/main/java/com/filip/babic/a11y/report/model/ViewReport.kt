@@ -8,6 +8,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class ViewReport(
+  val parentId: String,
+  val parentType: String,
   val viewId: String,
   val viewType: String,
   val viewReportItems: List<ViewReportItem>
