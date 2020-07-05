@@ -1,32 +1,61 @@
 package com.filip.babic.a11y.report
 
-import android.util.Log
 import com.filip.babic.a11y.report.model.Report
-import java.lang.IllegalStateException
-import java.lang.StringBuilder
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
 
 /**
  * Logs the serialized report into a text file, which is then saved locally.
  */
-internal class ReportLogger {
+internal class ReportLogger(private val rootFileDirectory: File) {
 
   companion object {
     private const val ID_CONTENT = "android:id/content"
+    private const val NO_ROOT_REPORT = "Could not find Root Report"
   }
 
-  // TODO implement a nice way to format the text.
-  fun logReport(report: Report, linearReport: Report) {
-    val rootReport = fetchRootLayoutReport(linearReport)
+  fun logReport(report: Report) {
+    val rootReport = fetchRootLayoutReport(report)
     val stringBuilder = StringBuilder()
 
     var currentReport = rootReport
+    var viewLevel = 0
 
-//    while (currentReport.isNotEmpty()) {
-//
-//
-//    }
+    while (currentReport.hasNextLevel() || currentReport.viewReports.isNotEmpty()) {
+      stringBuilder.appendln("View layer - $viewLevel ${if (viewLevel == 0) "(root)" else ""}")
+      stringBuilder.appendln("Parent ID - ${currentReport.parentId}")
+      stringBuilder.appendln("Parent Type - ${currentReport.parentType}")
+      stringBuilder.appendln("-- View Reports:")
 
-    Log.d("report", report.toString())
+      currentReport.viewReports.forEach { viewReport ->
+        stringBuilder.appendln("\tView ID - ${viewReport.viewId}")
+        stringBuilder.appendln("\tView Type - ${viewReport.viewType}")
+
+        viewReport.viewReportItems.forEach { reportItem ->
+          stringBuilder.appendln("\t\t Issue Type - ${reportItem.issueType}")
+          stringBuilder.appendln("\t\t Issue Description - ${reportItem.issue}")
+          stringBuilder.appendln("\t\t Suggestion - ${reportItem.fixSuggestion}")
+
+          stringBuilder.appendln()
+        }
+
+        stringBuilder.appendln()
+      }
+
+      viewLevel++
+      currentReport = currentReport.nextLevelReport ?: break
+    }
+
+    val fileId = UUID.randomUUID().toString()
+
+    val outputFile = File(rootFileDirectory, "$fileId.txt")
+    val outputStream = FileOutputStream(outputFile)
+
+    outputStream.use {
+      val output = stringBuilder.toString()
+      it.write(output.toByteArray())
+    }
   }
 
   /**
@@ -43,10 +72,10 @@ internal class ReportLogger {
     while (currentReport.hasNextLevel()) {
       if (currentReport.parentId != ID_CONTENT) {
         currentReport = currentReport.nextLevelReport
-          ?: throw IllegalStateException("Couldn't find Root report")
+          ?: throw IllegalStateException(NO_ROOT_REPORT)
       } else {
         return currentReport.nextLevelReport
-          ?: throw IllegalStateException("Couldn't find Root report")
+          ?: throw IllegalStateException(NO_ROOT_REPORT)
       }
     }
 
