@@ -14,9 +14,11 @@ dependencies {
 
   // other project dependencies ...
 
-  implementation 'com.filbabic.a11y:a11y:0.7.0'
+  implementation 'com.filbabic.a11y:a11y:$latest_version'
 }
 ```
+
+You can check out the latest version, and the Jcenter repository at the following [repository link](https://bintray.com/beta/#/filbabic/A11y/com.filbabic.a11y?tab=overview).
 
 After that, you can just sync the project, and start the **A11y** library, by adding the following line of code to your Application singleton class's `onCreate()`:
 
