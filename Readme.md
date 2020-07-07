@@ -37,6 +37,8 @@ The issues are detected in the entire ViewTree, using a recursive algorithm. The
 
 These algorithms are written by hand, and I don't guaranteee their speed or optimization, but they seem to be working fine so far! **Let me know if you have any suggestions!**
 
+Reports are generated in the `onDestroy()` functions of Fragments, and Activities!
+
 ## Reading Reports
 
 Reports are stored within your app's **files** directory, within the internal storage.
