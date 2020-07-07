@@ -14,7 +14,7 @@ dependencies {
 
   // other project dependencies ...
 
-  implementation 'com.filbabic.a11y:a11y:0.5.0'
+  implementation 'com.filbabic.a11y:a11y:0.7.0'
 }
 ```
 
