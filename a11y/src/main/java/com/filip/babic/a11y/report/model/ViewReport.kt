@@ -14,3 +14,4 @@ internal data class ViewReport(
   val viewType: String,
   val viewReportItems: List<ViewReportItem>
 )
+

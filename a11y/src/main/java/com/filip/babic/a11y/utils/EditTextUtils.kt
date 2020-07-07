@@ -24,7 +24,8 @@ internal fun isAutofillHintValid(editText: EditText): Boolean {
     val autofillHints = editText.autofillHints
     val hint = editText.hint
 
-    val shouldHaveHint = hintContainsFormInput(hint.toString()) && !isInputValidForAutofill(inputType)
+    val shouldHaveHint =
+      hintContainsFormInput(hint.toString()) && !isInputValidForAutofill(inputType)
 
     return ((isInputValidForAutofill(inputType) || shouldHaveHint) &&
         autofillHints != null &&
@@ -48,5 +49,5 @@ internal fun isInputValidForAutofill(inputType: Int): Boolean {
 }
 
 internal fun hintContainsFormInput(hint: String): Boolean {
-  return possibleFormInput.any { possibleEntry -> hint.toLowerCase().contains(possibleEntry) }
+  return possibleFormInput.any { possibleEntry -> hint.contains(possibleEntry, true) }
 }

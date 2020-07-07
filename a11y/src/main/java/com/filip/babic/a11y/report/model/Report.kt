@@ -37,4 +37,14 @@ internal data class Report(
    * An easy way to check if there is a next level for this View hierarchy.
    * */
   fun hasNextLevel(): Boolean = nextLevelReport != null
+
+  fun hasIssues(): Boolean {
+    while (hasNextLevel()) {
+      if (viewReports.isNotEmpty()) {
+        return true
+      }
+    }
+
+    return viewReports.isNotEmpty()
+  }
 }

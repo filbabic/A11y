@@ -15,8 +15,13 @@ internal class ReportLogger(private val rootFileDirectory: File) {
     private const val NO_ROOT_REPORT = "Could not find Root Report"
   }
 
-  fun logReport(report: Report) {
+  fun logReport(report: Report): Boolean {
     val rootReport = fetchRootLayoutReport(report)
+
+    if (!rootReport.hasIssues()) {
+      return false
+    }
+
     val stringBuilder = StringBuilder()
 
     var currentReport = rootReport
@@ -26,22 +31,27 @@ internal class ReportLogger(private val rootFileDirectory: File) {
       stringBuilder.appendln("View layer - $viewLevel ${if (viewLevel == 0) "(root)" else ""}")
       stringBuilder.appendln("Parent ID - ${currentReport.parentId}")
       stringBuilder.appendln("Parent Type - ${currentReport.parentType}")
-      stringBuilder.appendln("-- View Reports:")
 
-      currentReport.viewReports.forEach { viewReport ->
-        stringBuilder.appendln("\tView ID - ${viewReport.viewId}")
-        stringBuilder.appendln("\tView Type - ${viewReport.viewType}")
+      if (currentReport.viewReports.isNotEmpty()) {
+        stringBuilder.appendln("-- View Reports:")
 
-        viewReport.viewReportItems.forEach { reportItem ->
-          stringBuilder.appendln("\t\t Issue Type - ${reportItem.issueType}")
-          stringBuilder.appendln("\t\t Issue Description - ${reportItem.issue}")
-          stringBuilder.appendln("\t\t Suggestion - ${reportItem.fixSuggestion}")
+        currentReport.viewReports.forEach { viewReport ->
+          stringBuilder.appendln("\tView ID - ${viewReport.viewId}")
+          stringBuilder.appendln("\tView Type - ${viewReport.viewType}")
+
+          viewReport.viewReportItems.forEach { reportItem ->
+            stringBuilder.appendln("\t\t Issue Type - ${reportItem.issueType}")
+            stringBuilder.appendln("\t\t Issue Description - ${reportItem.issue}")
+            stringBuilder.appendln("\t\t Suggestion - ${reportItem.fixSuggestion}")
+
+            stringBuilder.appendln()
+          }
 
           stringBuilder.appendln()
         }
-
-        stringBuilder.appendln()
       }
+
+      stringBuilder.appendln()
 
       viewLevel++
       currentReport = currentReport.nextLevelReport ?: break
@@ -56,6 +66,8 @@ internal class ReportLogger(private val rootFileDirectory: File) {
       val output = stringBuilder.toString()
       it.write(output.toByteArray())
     }
+
+    return true
   }
 
   /**

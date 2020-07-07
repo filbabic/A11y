@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -42,8 +43,18 @@ object A11yInitializer {
   fun start(context: Context) {
     val applicationContext = context.applicationContext as? Application ?: return
 
-    rootFileDirectory = context.filesDir
+    rootFileDirectory = buildRootDirectory(context.filesDir)
     applicationContext.registerActivityLifecycleCallbacks(getActivityCallbacks())
+  }
+
+  private fun buildRootDirectory(rootInternal: File): File {
+    val directory = File(rootInternal, "a11y")
+
+    if (!directory.exists()) {
+      directory.mkdirs()
+    }
+
+    return directory
   }
 
   private fun getActivityCallbacks(): Application.ActivityLifecycleCallbacks {
@@ -73,7 +84,12 @@ object A11yInitializer {
         val fragmentManager = (activity as? FragmentActivity)?.supportFragmentManager ?: return
         fragmentManager.registerFragmentLifecycleCallbacks(getFragmentCallbacks(), true)
 
-        logger.logReport(scanner.flattenReport(scanner.scanView(activityView), emptyList()))
+        val hasReportedIssues =
+          logger.logReport(scanner.flattenReport(scanner.scanView(activityView), emptyList()))
+
+        if (hasReportedIssues) {
+          showLoggingMessage(activity.applicationContext)
+        }
       }
 
       override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
@@ -101,9 +117,18 @@ object A11yInitializer {
         val view = fragment.view
 
         if (view is ViewGroup) {
-          logger.logReport(scanner.flattenReport(scanner.scanView(view), emptyList()))
+          val hasReportedIssues =
+            logger.logReport(scanner.flattenReport(scanner.scanView(view), emptyList()))
+
+          if (hasReportedIssues) {
+            showLoggingMessage(view.context.applicationContext)
+          }
         }
       }
     }
+  }
+
+  private fun showLoggingMessage(context: Context) {
+    Toast.makeText(context, "Logging Report!", Toast.LENGTH_SHORT).show()
   }
 }

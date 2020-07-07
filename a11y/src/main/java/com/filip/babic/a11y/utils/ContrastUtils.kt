@@ -55,5 +55,9 @@ private fun getContrast(
   val firstColorLuminance = ColorUtils.calculateLuminance(firstColor)
   val secondColorLuminance = ColorUtils.calculateLuminance(secondColor)
 
-  return (firstColorLuminance + 0.05) / (secondColorLuminance + 0.05)
+  return if (firstColorLuminance > secondColorLuminance) {
+    (firstColorLuminance + 0.05) / (secondColorLuminance + 0.05)
+  } else {
+    (secondColorLuminance + 0.05) / (firstColorLuminance + 0.05)
+  }
 }
