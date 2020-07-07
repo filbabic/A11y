@@ -81,18 +81,16 @@ object A11yInitializer {
       override fun onActivityDestroyed(activity: Activity) {
         val activityView = activity.window.decorView.rootView as? ViewGroup ?: return
 
-        val fragmentManager = (activity as? FragmentActivity)?.supportFragmentManager ?: return
-        fragmentManager.registerFragmentLifecycleCallbacks(getFragmentCallbacks(), true)
-
         val hasReportedIssues =
           logger.logReport(scanner.flattenReport(scanner.scanView(activityView), emptyList()))
 
-        if (hasReportedIssues) {
-          showLoggingMessage(activity.applicationContext)
-        }
+        showLoggingMessage(activity.applicationContext, hasReportedIssues)
       }
 
-      override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
+      override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        val fragmentManager = (activity as? FragmentActivity)?.supportFragmentManager ?: return
+        fragmentManager.registerFragmentLifecycleCallbacks(getFragmentCallbacks(), true)
+      }
     }
   }
 
@@ -120,15 +118,20 @@ object A11yInitializer {
           val hasReportedIssues =
             logger.logReport(scanner.flattenReport(scanner.scanView(view), emptyList()))
 
-          if (hasReportedIssues) {
-            showLoggingMessage(view.context.applicationContext)
-          }
+          showLoggingMessage(view.context.applicationContext, hasReportedIssues)
         }
       }
     }
   }
 
-  private fun showLoggingMessage(context: Context) {
-    Toast.makeText(context, "Logging Report!", Toast.LENGTH_SHORT).show()
+  private fun showLoggingMessage(
+    context: Context,
+    hasReportedIssues: Boolean
+  ) {
+    Toast.makeText(
+      context,
+      if (hasReportedIssues) "Logging Report!" else "Nothing to report!",
+      Toast.LENGTH_SHORT
+    ).show()
   }
 }
