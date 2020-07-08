@@ -39,12 +39,16 @@ internal data class Report(
   fun hasNextLevel(): Boolean = nextLevelReport != null
 
   fun hasIssues(): Boolean {
-    while (hasNextLevel()) {
-      if (viewReports.isNotEmpty()) {
+    var report = this
+
+    while (report.hasNextLevel()) {
+      if (report.viewReports.isNotEmpty()) {
         return true
       }
+
+      report = report.nextLevelReport ?: return false
     }
 
-    return viewReports.isNotEmpty()
+    return report.viewReports.isNotEmpty()
   }
 }

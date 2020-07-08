@@ -110,17 +110,22 @@ object A11yInitializer {
   private fun buildFragmentCallbacks(): FragmentManager.FragmentLifecycleCallbacks {
     return object : FragmentManager.FragmentLifecycleCallbacks() {
 
-      override fun onFragmentDestroyed(fm: FragmentManager, fragment: Fragment) {
-        super.onFragmentDestroyed(fm, fragment)
-        val view = fragment.view
+      override fun onFragmentDetached(fm: FragmentManager, fragment: Fragment) {
+        super.onFragmentDetached(fm, fragment)
 
-        if (view is ViewGroup) {
-          val hasReportedIssues =
-            logger.logReport(scanner.flattenReport(scanner.scanView(view), emptyList()))
-
-          showLoggingMessage(view.context.applicationContext, hasReportedIssues)
-        }
+        scanFragmentView(fragment)
       }
+    }
+  }
+
+  private fun scanFragmentView(fragment: Fragment) {
+    val view = fragment.view
+
+    if (view is ViewGroup) {
+      val hasReportedIssues =
+        logger.logReport(scanner.flattenReport(scanner.scanView(view), emptyList()))
+
+      showLoggingMessage(view.context.applicationContext, hasReportedIssues)
     }
   }
 
