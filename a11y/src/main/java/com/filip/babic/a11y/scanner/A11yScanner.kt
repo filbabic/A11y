@@ -125,7 +125,7 @@ internal class A11yScanner(private val scanners: List<ViewScanner>) {
       viewReports = getChildViewReportItems(
         viewId,
         viewType,
-        if (hasNestedLayouts) simpleViews else children
+        simpleViews
       ),
       childLayerReports = if (hasNestedLayouts) {
         nestedLayers

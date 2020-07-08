@@ -110,10 +110,11 @@ object A11yInitializer {
   private fun buildFragmentCallbacks(): FragmentManager.FragmentLifecycleCallbacks {
     return object : FragmentManager.FragmentLifecycleCallbacks() {
 
-      override fun onFragmentDetached(fm: FragmentManager, fragment: Fragment) {
-        super.onFragmentDetached(fm, fragment)
-
-        scanFragmentView(fragment)
+      override fun onFragmentViewDestroyed(fm: FragmentManager, fragment: Fragment) {
+        if (fragment.isRemoving) {
+          scanFragmentView(fragment)
+        }
+        super.onFragmentViewDestroyed(fm, fragment)
       }
     }
   }
