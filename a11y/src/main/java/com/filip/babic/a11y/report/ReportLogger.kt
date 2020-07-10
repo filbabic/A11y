@@ -36,8 +36,14 @@ internal class ReportLogger(private val rootFileDirectory: File) {
         stringBuilder.appendln("-- View Reports:")
 
         currentReport.viewReports.forEach { viewReport ->
+          stringBuilder.appendln("\t------------------------")
           stringBuilder.appendln("\tView ID - ${viewReport.viewId}")
           stringBuilder.appendln("\tView Type - ${viewReport.viewType}")
+          stringBuilder.appendln()
+          stringBuilder.appendln("\tParent ID - ${viewReport.parentId}")
+          stringBuilder.appendln("\tParent Type - ${viewReport.parentType}")
+          stringBuilder.appendln()
+          stringBuilder.appendln("\tIssues:")
 
           viewReport.viewReportItems.forEach { reportItem ->
             stringBuilder.appendln("\t\t Issue Type - ${reportItem.issueType}")
@@ -46,8 +52,6 @@ internal class ReportLogger(private val rootFileDirectory: File) {
 
             stringBuilder.appendln()
           }
-
-          stringBuilder.appendln()
         }
       }
 
