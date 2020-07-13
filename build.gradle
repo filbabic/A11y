@@ -51,9 +51,9 @@ ext {
   siteUrl = 'https://github.com/filbabic/A11y'
   gitUrl = 'https://github.com/filbabic/A11y.git'
 
-  libraryVersion = '0.7.5'
-  libraryVersionName = "0.7.5"
-  libraryVersionCode = 8
+  libraryVersion = '0.7.6'
+  libraryVersionName = "0.7.6"
+  libraryVersionCode = 9
 
   developerId = 'filbabic'
   developerName = 'Filip Babic'
