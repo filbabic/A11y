@@ -38,7 +38,7 @@ dependencies {
 
   // specific collection-type views, which are used for ImageView content description checks
   implementation 'androidx.gridlayout:gridlayout:1.0.0'
-  implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
+  implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc"
 }
 
 apply from: 'publish.gradle'
