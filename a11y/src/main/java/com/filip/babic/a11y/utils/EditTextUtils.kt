@@ -22,14 +22,16 @@ internal fun isAutofillHintValid(editText: EditText): Boolean {
   return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
     val inputType = editText.inputType
     val autofillHints = editText.autofillHints
-    val hint = editText.hint
+    val hint = editText.hint?.toString() ?: ""
 
-    val shouldHaveHint =
-      hintContainsFormInput(hint.toString()) && !isInputValidForAutofill(inputType)
+    val doesNotNeedHints = !hintContainsFormInput(hint) && !isInputValidForAutofill(inputType)
 
-    return ((isInputValidForAutofill(inputType) || shouldHaveHint) &&
-        autofillHints != null &&
-        autofillHints.any { autofillHint -> hintContainsFormInput(autofillHint) })
+    return doesNotNeedHints || (
+        (isInputValidForAutofill(inputType)
+            || hintContainsFormInput(hint))
+            && autofillHints != null &&
+            autofillHints.any { autofillHint -> hintContainsFormInput(autofillHint) }
+        )
   } else {
     true
   }

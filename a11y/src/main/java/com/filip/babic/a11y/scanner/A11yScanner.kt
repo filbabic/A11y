@@ -155,9 +155,15 @@ internal class A11yScanner(private val scanners: List<ViewScanner>) {
   }
 
   private fun getViewBasics(currentView: View): Pair<String, String> {
+    val context = currentView.context
     val viewIdInt = currentView.id
-    val viewIdentifier =
-      if (viewIdInt == View.NO_ID) "no-id" else currentView.resources.getResourceName(viewIdInt)
+    val viewIdentifier = try {
+      if (viewIdInt == View.NO_ID) "no-id" else context.resources.getResourceName(viewIdInt)
+    } catch (error: Throwable) {
+      // cannot get resource when fetching
+      error.printStackTrace()
+      "no-id"
+    }
 
     val viewType = currentView.javaClass.name
 
