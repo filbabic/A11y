@@ -6,7 +6,7 @@ import android.view.View
 /**
  * Provides functions for general View checkups, like touch area. Touch area of views needs to be
  * at least [MINIMAL_TOUCH_AREA_SIZE] dp in size. This means each View needs <i>at least</i> that
- * big width and height, after density conversions.
+ * big width and height, with padding, after density conversions.
  *
  * It does not matter if the view has 250dp height, if the width is still only 20 dp, as the View
  * will still be hard to perform touch/click actions on.
@@ -21,6 +21,11 @@ internal fun hasBigEnoughTouchArea(view: View): Boolean {
   } else {
     val viewHeight = view.measuredHeight
     val viewWidth = view.measuredWidth
+    val viewPaddingHorizontal = view.paddingStart + view.paddingEnd
+    val viewPaddingVertical = view.paddingTop + view.paddingBottom
+
+    val viewTotalHeight = viewHeight + viewPaddingVertical
+    val viewTotalWidth = viewWidth + viewPaddingHorizontal
 
     val minimalSizePixels = TypedValue.applyDimension(
       TypedValue.COMPLEX_UNIT_DIP,
@@ -28,6 +33,6 @@ internal fun hasBigEnoughTouchArea(view: View): Boolean {
       view.resources.displayMetrics
     ).toInt()
 
-    return viewHeight >= minimalSizePixels && viewWidth >= minimalSizePixels
+    return viewTotalHeight >= minimalSizePixels && viewTotalWidth >= minimalSizePixels
   }
 }
