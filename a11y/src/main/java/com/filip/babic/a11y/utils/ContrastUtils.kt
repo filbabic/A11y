@@ -26,6 +26,11 @@ private const val LARGE_TEXT_TARGET_SIZE = 18f
 private const val NORMAL_TEXT_CONTRAST = 3.0
 private const val LARGE_TEXT_CONTRAST = 4.5
 
+private const val MINIMAL_TEXT_SIZE = 12f
+
+internal fun hasMinimalTextSize(textView: TextView): Boolean =
+  isLargeEnoughText(textView, MINIMAL_TEXT_SIZE)
+
 internal fun isTextContrastCorrect(
   textView: TextView,
   @ColorInt backgroundColor: Int

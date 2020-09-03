@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.TextView
 import com.filip.babic.a11y.report.model.ViewReportItem
 import com.filip.babic.a11y.scanner.base.ViewScanner
+import com.filip.babic.a11y.utils.hasMinimalTextSize
 import com.filip.babic.a11y.utils.isTextContrastCorrect
 
 /**
@@ -16,16 +17,18 @@ internal class TextViewScanner : ViewScanner() {
     val textView = view as TextView
     val viewBackground = textView.background as? ColorDrawable
 
-    return if (viewBackground != null) {
-      val hasGoodContrast = isTextContrastCorrect(textView, viewBackground.color)
+    // TODO figure out how to extrapolate the color of Buttons/RippleDrawable
 
-      getTextViewReport(hasGoodContrast)
-    } else {
-      emptyList()
-    }
+    val hasGoodContrast = viewBackground?.let { isTextContrastCorrect(textView, it.color) } ?: true
+    val hasMinimalTextSize = hasMinimalTextSize(textView)
+
+    return getTextViewReport(hasGoodContrast, hasMinimalTextSize)
   }
 
-  private fun getTextViewReport(hasGoodContrast: Boolean): List<ViewReportItem> {
+  private fun getTextViewReport(
+    hasGoodContrast: Boolean,
+    hasMinimalTextSize: Boolean
+  ): List<ViewReportItem> {
     val reports = mutableListOf<ViewReportItem>()
 
     if (!hasGoodContrast) {
@@ -36,6 +39,16 @@ internal class TextViewScanner : ViewScanner() {
       )
 
       reports.add(contrastReport)
+    }
+
+    if (!hasMinimalTextSize) {
+      val textSizeReport = ViewReportItem(
+        "Text Size",
+        "This text view's text size is lower than the minimal (12sp).",
+        "Your TextViews should have at least 12sp large text size. Make sure you don't use a text that's smaller than that."
+      )
+
+      reports.add(textSizeReport)
     }
 
     return reports
