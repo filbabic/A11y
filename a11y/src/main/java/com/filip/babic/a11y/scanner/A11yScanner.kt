@@ -41,7 +41,8 @@ internal class A11yScanner(private val scanners: List<ViewScanner>) {
    * 4. Before traversing deeper into the structure, we flatten the current layer, and build its
    * report for logging.
    *
-   * 5.
+   * 5. We check if there are nested layers and if there should be a recursive call, otherwise the
+   * algorithm just returns the current report.
    *
    * @return [Report] - Flattened report similar to a Linked-list structure, for easy traversal.
    * */
@@ -149,6 +150,10 @@ internal class A11yScanner(private val scanners: List<ViewScanner>) {
   }
 
   private fun getViewReportItems(currentView: View): List<ViewReportItem> {
+    if (!currentView.isImportantForAccessibility) {
+      return emptyList()
+    }
+
     val scannersForView = scanners.filter { it.canScan(currentView) }
 
     return scannersForView.flatMap { it.getViewReportItems(currentView) }.distinct()

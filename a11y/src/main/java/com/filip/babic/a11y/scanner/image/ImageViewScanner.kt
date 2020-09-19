@@ -5,7 +5,7 @@ import android.widget.ImageView
 import com.filip.babic.a11y.report.model.ViewReportItem
 import com.filip.babic.a11y.scanner.base.ViewScanner
 import com.filip.babic.a11y.utils.isContentDescriptionValid
-import com.filip.babic.a11y.utils.shouldNotHaveDescription
+import com.filip.babic.a11y.utils.shouldBeMoreDescriptive
 
 /**
  * Scans [ImageView] types, and produces its [ViewReportItem]s.
@@ -15,14 +15,15 @@ internal class ImageViewScanner : ViewScanner() {
   override fun <T : View> getViewReportItems(view: T): List<ViewReportItem> {
     val imageView = view as ImageView
     val isValidContentDescription = isContentDescriptionValid(imageView)
-    val shouldNotHaveDescription = shouldNotHaveDescription(imageView)
+//    val shouldNotHaveDescription = shouldBeMoreDescriptive(imageView)
 
     return buildImageViewReports(
       isValidContentDescription,
-      shouldNotHaveDescription
+      false // TODO we disable this check until the algorithm is optimized/fixed
     )
   }
 
+  // TODO: Add extra links to let users know about decorative, functional and informative images
   private fun buildImageViewReports(
     validContentDescription: Boolean,
     shouldNotHaveDescription: Boolean

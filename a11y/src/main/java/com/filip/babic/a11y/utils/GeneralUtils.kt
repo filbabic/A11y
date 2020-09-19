@@ -14,9 +14,7 @@ import android.view.View
 private const val MINIMAL_TOUCH_AREA_SIZE = 48f
 
 internal fun hasBigEnoughTouchArea(view: View): Boolean {
-  val hasListeners = view.hasOnClickListeners()
-
-  return if (!hasListeners) {
+  return if (!view.isImportantForAccessibility) {
     true
   } else {
     val viewHeight = view.measuredHeight

@@ -25,6 +25,7 @@ internal class TextViewScanner : ViewScanner() {
     return getTextViewReport(hasGoodContrast, hasMinimalTextSize)
   }
 
+  // TODO add extra description as to what is contrast and how to measure it, compare it...
   private fun getTextViewReport(
     hasGoodContrast: Boolean,
     hasMinimalTextSize: Boolean

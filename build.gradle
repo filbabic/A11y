@@ -34,10 +34,10 @@ task clean(type: Delete) {
 }
 
 ext {
-  compileSdkVersion = 29
-  targetSdkVersion = 29
+  compileSdkVersion = 30
+  targetSdkVersion = 30
   minSdkVersion = 21
-  buildToolsVersion = "29.0.3"
+  buildToolsVersion = "30.0.2"
 
   bintrayRepo = 'A11y'
   bintrayName = 'com.filbabic.a11y'
@@ -51,9 +51,9 @@ ext {
   siteUrl = 'https://github.com/filbabic/A11y'
   gitUrl = 'https://github.com/filbabic/A11y.git'
 
-  libraryVersion = '0.8.0'
-  libraryVersionName = "0.8.0"
-  libraryVersionCode = 12
+  libraryVersion = '0.8.1'
+  libraryVersionName = "0.8.1"
+  libraryVersionCode = 13
 
   developerId = 'filbabic'
   developerName = 'Filip Babic'

@@ -10,6 +10,7 @@ import com.filip.babic.a11y.utils.hasBigEnoughTouchArea
  */
 internal class GeneralViewScanner : ViewScanner() {
 
+  // TODO: Add guidelines on using `View.Gone` instead of `0dp` when removing components from UI
   override fun <T : View> getViewReportItems(view: T): List<ViewReportItem> {
     return if (!hasBigEnoughTouchArea(view)) {
       listOf(

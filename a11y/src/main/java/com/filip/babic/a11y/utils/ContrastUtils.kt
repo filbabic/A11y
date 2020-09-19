@@ -23,8 +23,8 @@ import androidx.core.graphics.ColorUtils
 private const val NORMAL_TEXT_TARGET_SIZE = 14f
 private const val LARGE_TEXT_TARGET_SIZE = 18f
 
-private const val NORMAL_TEXT_CONTRAST = 3.0
-private const val LARGE_TEXT_CONTRAST = 4.5
+private const val LARGE_TEXT_CONTRAST = 3.0
+private const val NORMAL_TEXT_CONTRAST = 4.5
 
 private const val MINIMAL_TEXT_SIZE = 12f
 
@@ -38,11 +38,11 @@ internal fun isTextContrastCorrect(
   val textContrast = getContrast(textView.currentTextColor, backgroundColor)
   val textStyle = textView.typeface.style
 
-  return if (isBoldText(textStyle) && isLargeEnoughText(textView, NORMAL_TEXT_TARGET_SIZE)) {
-    textContrast > NORMAL_TEXT_CONTRAST
-  } else {
-    isLargeEnoughText(textView, LARGE_TEXT_TARGET_SIZE) && textContrast > LARGE_TEXT_CONTRAST
-  }
+  val isLargeText =
+    (isBoldText(textStyle) && isLargeEnoughText(textView, NORMAL_TEXT_TARGET_SIZE)) ||
+        (!isBoldText(textStyle) && isLargeEnoughText(textView, LARGE_TEXT_TARGET_SIZE))
+
+  return if (isLargeText) textContrast > LARGE_TEXT_CONTRAST else textContrast > NORMAL_TEXT_CONTRAST
 }
 
 private fun isBoldText(textStyle: Int): Boolean {

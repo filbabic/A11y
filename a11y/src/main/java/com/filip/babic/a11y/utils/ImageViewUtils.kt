@@ -31,7 +31,7 @@ internal fun isContentDescriptionValid(imageView: ImageView): Boolean {
   return !hasBadDescription(imageView)
 }
 
-internal fun shouldNotHaveDescription(imageView: ImageView): Boolean {
+internal fun shouldBeMoreDescriptive(imageView: ImageView): Boolean {
   val rootView = imageView.rootView
   var currentParentLayerView = getParentViewFromView(imageView) ?: return false
 
@@ -42,6 +42,11 @@ internal fun shouldNotHaveDescription(imageView: ImageView): Boolean {
   }
 
   return isParentACollectionView(rootView)
+}
+
+// TODO algorithm that compares each imageview to every other in collections & if they have the same content description
+private fun findImagesInElement(viewGroup: ViewGroup): List<ImageView> {
+  return emptyList()
 }
 
 private fun lacksContentDescription(imageView: ImageView) =
