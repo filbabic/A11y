@@ -11,7 +11,7 @@ import com.filip.babic.a11y.utils.isTextContrastCorrect
 /**
  * Scans [TextView]s to produce [ViewReportItem]s for them.
  */
-internal class TextViewScanner : ViewScanner() {
+internal class TextViewScanner : ViewScanner {
 
   override fun <T : View> getViewReportItems(view: T): List<ViewReportItem> {
     val textView = view as TextView

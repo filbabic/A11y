@@ -7,7 +7,7 @@ import com.filip.babic.a11y.scanner.base.ViewScanner
 import com.filip.babic.a11y.utils.isAutofillHintValid
 import com.filip.babic.a11y.utils.isHintValid
 
-internal class EditTextScanner : ViewScanner() {
+internal class EditTextScanner : ViewScanner {
 
   override fun canScan(view: View): Boolean = view is EditText
 

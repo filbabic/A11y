@@ -4,11 +4,12 @@ import android.view.View
 import com.filip.babic.a11y.report.model.ViewReportItem
 
 /**
- * Basic abstract View scanner.
+ * Common interface for View scanners.
  */
-internal abstract class ViewScanner {
+internal interface ViewScanner {
 
-  abstract fun <T : View> getViewReportItems(view: T): List<ViewReportItem>
+  fun <T : View> getViewReportItems(view: T): List<ViewReportItem>
 
-  abstract fun canScan(view: View): Boolean
+  fun canScan(view: View): Boolean
+
 }
