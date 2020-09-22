@@ -47,7 +47,7 @@ And that's it! Everything will be handled for you, and all the optimizations & c
 
 The issues are detected in the entire ViewTree, using a recursive algorithm. These tree-structure-reports are then flattened into a linear, linked-list kind of report, which is much easier to iterate over and use when printing out the report issues and suggestions.
 
-These algorithms are written by hand, and I don't guaranteee their speed or optimization, but they seem to be working fine so far! **Let me know if you have any suggestions!**
+These algorithms are written by hand, and I don't guarantee their speed or optimization, but they seem to be working fine so far! **Let me know if you have any suggestions!**
 
 Reports are generated in the `onDestroy()` functions of Fragments, and Activities!
 
