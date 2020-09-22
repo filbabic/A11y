@@ -6,9 +6,9 @@ import com.filip.babic.a11y.scanner.base.ViewScanner
 import com.filip.babic.a11y.utils.hasBigEnoughTouchArea
 
 /**
- * Scans generic [View] items, to  produce [ViewItemReport]s about them.
+ * Scans generic [View] items, to  produce [ViewReportItem]s about them.
  */
-internal class GeneralViewScanner : ViewScanner() {
+internal class GeneralViewScanner : ViewScanner {
 
   // TODO: Add guidelines on using `View.Gone` instead of `0dp` when removing components from UI
   override fun <T : View> getViewReportItems(view: T): List<ViewReportItem> {

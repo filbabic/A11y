@@ -5,12 +5,11 @@ import android.widget.ImageView
 import com.filip.babic.a11y.report.model.ViewReportItem
 import com.filip.babic.a11y.scanner.base.ViewScanner
 import com.filip.babic.a11y.utils.isContentDescriptionValid
-import com.filip.babic.a11y.utils.shouldBeMoreDescriptive
 
 /**
  * Scans [ImageView] types, and produces its [ViewReportItem]s.
  */
-internal class ImageViewScanner : ViewScanner() {
+internal class ImageViewScanner : ViewScanner {
 
   override fun <T : View> getViewReportItems(view: T): List<ViewReportItem> {
     val imageView = view as ImageView
